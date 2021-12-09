@@ -1,10 +1,17 @@
 ---
-title: "Generating plots with ggplot2"
+title: "EDDA: Generating plots with ggplot2 (2)"
+author: "Axel Nohturfft"
+date: "09-Dec-2021"
 subtitle: "Using the esquisse addin"
 output: html_notebook
 ---
 
 ```{r}
+# install.packages("dplyr")
+# install.packages("magrittr")
+# install.packages("tidyr")
+# install.packages("ggplot2")
+# install.packages("esquisse")
 library(dplyr)
 library(magrittr)
 library(tidyr)

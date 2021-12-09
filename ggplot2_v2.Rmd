@@ -1,0 +1,75 @@
+---
+title: "Generating plots with ggplot2"
+subtitle: "Using the esquisse addin"
+output: html_notebook
+---
+
+```{r}
+library(dplyr)
+library(magrittr)
+library(tidyr)
+library(ggplot2)
+```
+
+```{r}
+library(readxl)
+Untidy_tidy_datasets <- read_excel("Untidy_tidy_datasets.xlsx", 
+    range = "A2:C7")
+#View(Untidy_tidy_datasets)
+```
+
+
+
+```{r}
+df <- Untidy_tidy_datasets
+df
+```
+
+```{r}
+df2 <- pivot_longer(df, cols=names(df), names_to = "Treatment", values_to = "Observation") %>% 
+  arrange(Treatment)
+df2
+```
+
+```{r}
+df3 <- df2 %>% 
+  group_by(Treatment) %>% 
+  summarise(Mean = mean(Observation, na.rm=TRUE),
+            StDev = sd(Observation, na.rm=TRUE)) %>% 
+  rename(Observation = Mean)
+df3
+```
+```{r}
+ggplot(df3) +
+  aes(x = Treatment, weight = Observation) +
+  geom_bar(fill = "#228B22") +
+  theme_minimal()
+```
+
+```{r}
+cars <- mtcars
+cars
+```
+
+```{r}
+gg <- ggplot(cars) +
+  aes(x = disp, y = mpg) +
+  geom_point(
+    shape = "circle",
+    size = 3.75,
+    colour = "#B22222"
+  ) +
+  geom_smooth(span = 0.75) +
+  labs(title = "mtcars data fra\\me") +
+  theme_minimal() +
+  theme(
+    axis.title.y = element_text(face = "bold.italic"),
+    axis.title.x = element_text(face = "bold.italic", color="red")
+  )
+gg
+```
+
+```{r}
+ggsave(filename = "plot.pdf", plot = gg)
+```
+
